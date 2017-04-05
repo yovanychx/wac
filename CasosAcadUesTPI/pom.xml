@@ -7,7 +7,6 @@
   <packaging>pom</packaging>
   <name>CasosAcadUesTPI</name>
   <modules>
-    <module>pom</module>
     <module>CasosAcadUesTPI-ear</module>
     <module>CasosAcadUesTPI-web</module>
     <module>CasosAcadUesTPI-ejb</module>
