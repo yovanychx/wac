@@ -1,0 +1,104 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <h:body>
+        <f:view>
+            <h:form id="frmData">
+                <p:dataTable id="tblData" value="#{frmRequisito.tabla}"
+                    var="tabla"
+                    lazy="true"
+                    paginator="true"
+                    rows="4"
+                    selectionMode="single"
+                    selection="#{frmRequisito.registro}"
+                    emptyMessage="Sin coincidencias"
+                    paginatorAlwaysVisible="true">
+                    <p:ajax update=":frmEdit" event="rowSelect" listener="#{frmRequisito.cambiarSeleccion}"/>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="IdRequisito"/>
+                        </f:facet>
+                            <h:outputText value="#{tabla.idRequisito}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Nombre"/>
+                            </f:facet>
+                            <h:outputText value="#{tabla.nombre}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Descripcion"/>
+                            </f:facet>
+                            <h:outputText value="#{tabla.descripcion}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Prioridad"/>
+                            </f:facet>
+                            <h:outputText value="#{tabla.prioridad}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="IdTipoRequisito"/>
+                            </f:facet>
+                            <h:outputText value="#{frmTipoRequisito.Devolver(tabla.idTipoRequisito)}"/>
+                        </p:column>
+                    
+                </p:dataTable>                
+            </h:form>
+        </f:view>
+        <f:view>
+            <h:form id="pepe">
+                <p:commandButton value="Crear Nuevo">
+                    <p:ajax update=":frmEdit" listener="#{frmRequisito.mostrar()}"/>
+                </p:commandButton>
+                <p:commandButton value="Cancelar">
+                    <p:ajax update=":frmEdit" listener="#{frmRequisito.ocultar()}"/>
+                </p:commandButton>
+            </h:form>
+            
+            <h:form id="frmEdit">
+                
+                <h:panelGroup id="panelEdit" rendered="#{frmRequisito.frmEdit}">
+                    <p:messages id="msj"/>
+                    <h1><h:outputText value="Crear y Modificar"/></h1>
+                    <p:panelGrid id="pnlEdit" columns="2">
+                        
+                        <p:outputLabel value="IdRequisito:" for="idRequisito" />
+                    <p:inputText id="idRequisito" value="#{frmRequisito.registro.idRequisito}" title="IdRequisito" required="true" requiredMessage="The IdRequisito field is required."/>
+                    <p:outputLabel value="Nombre:" for="nombre" />
+                    <p:inputText id="nombre" value="#{frmRequisito.registro.nombre}" title="Nombre" required="true" requiredMessage="The Nombre field is required."/>
+                    <p:outputLabel value="Descripcion:" for="descripcion" />
+                    <p:inputTextarea rows="4" cols="30" id="descripcion" value="#{frmRequisito.registro.descripcion}" title="Descripcion" required="true" requiredMessage="The Descripcion field is required."/>
+                    <p:outputLabel value="Prioridad:" for="prioridad" />
+                    <p:inputText id="prioridad" value="#{frmRequisito.registro.prioridad}" title="Prioridad" required="true" requiredMessage="The Prioridad field is required."/>
+                    <p:outputLabel value="IdTipoRequisito:" for="idTipoRequisito" />
+                    <p:selectOneMenu id="idTipoRequisito" value="#{frmRequisito.registro.idTipoRequisito}" required="true" requiredMessage="The IdTipoRequisito field is required.">
+                        <f:selectItems var="var" value="#{frmTipoRequisito.findAll()}" itemLabel="#{var.nombre}" />
+                    </p:selectOneMenu>   
+                    </p:panelGrid>
+                    
+                    <p:panelGrid id="panelBotones" columns="2">
+                        <p:commandButton value="Guarar" icon="ui-icon-disk" rendered="#{frmRequisito.btnGuardar}">
+                            <p:ajax process=":frmEdit:" update=":frmEdit :frmData" listener="#{frmRequisito.Guardar()}"/>
+                        </p:commandButton>
+                        <p:commandButton value="Eliminar" icon="ui-icon-trash" rendered="#{frmRequisito.btnBorrarModificar}">
+                            <p:ajax process=":frmEdit" update=":frmEdit :frmData" listener="#{frmRequisito.Eliminar()}"/>
+                        </p:commandButton>
+                        <p:commandButton value="Modificar" icon="ui-icon-pencil" rendered="#{frmRequisito.btnBorrarModificar}">
+                            <p:ajax process=":frmEdit" update=":frmEdit :frmData" listener="#{frmRequisito.Modificar()}"/>
+                        </p:commandButton>
+                    </p:panelGrid>
+                </h:panelGroup>
+            </h:form>
+        </f:view>
+    </h:body>
+</html>
+

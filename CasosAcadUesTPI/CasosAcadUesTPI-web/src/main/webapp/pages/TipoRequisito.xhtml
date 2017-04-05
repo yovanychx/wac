@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Administración de Casos</title>
+    </h:head>
+    <h:body>
+        <f:view>
+            <h:form id="frmData">
+                <p:dataTable id="tblData" value="#{frmTipoRequisito.tabla}"
+                    var="tabla"
+                    lazy="true"
+                    paginator="true"
+                    rows="4"
+                    selectionMode="single"
+                    selection="#{frmTipoRequisito.registro}"
+                    emptyMessage="Sin coincidencias"
+                    paginatorAlwaysVisible="true">
+                    <p:ajax update=":frmEdit" event="rowSelect" listener="#{frmTipoRequisito.cambiarSeleccion}"/>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="ID"/>
+                            </f:facet>		
+                            <h:outputText value="#{tabla.idTipoRequisito}"/>
+                         </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Nombre"/>
+                            </f:facet>		
+                            <h:outputText value="#{tabla.nombre}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Estado"/>
+                            </f:facet>		
+                            <h:outputText value="#{tabla.activo?'ACTIVO':'INACTIVO'}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Descripcion"/>
+                            </f:facet>		
+                            <h:outputText value="#{tabla.observaciones}"/>
+                        </p:column>
+                </p:dataTable>                
+            </h:form>
+        </f:view>
+        <f:view>
+            <h:form id="pepe">
+                <p:commandButton value="Crear Nuevo">
+                    <p:ajax update=":frmEdit" listener="#{frmTipoRequisito.mostrar()}"/>
+                </p:commandButton>
+                <p:commandButton value="Cancelar">
+                    <p:ajax update=":frmEdit" listener="#{frmTipoRequisito.ocultar()}"/>
+                </p:commandButton>
+            </h:form>
+            
+            <h:form id="frmEdit">
+                
+                <h:panelGroup id="panelEdit" rendered="#{frmTipoRequisito.frmEdit}">
+                    <p:messages id="msj"/>
+                    <h1><h:outputText value="Crear y Modificar"/></h1>
+                    <p:panelGrid id="pnlEdit" columns="2">
+                        <p:outputLabel value="Id:" for="idTipoRequisito" />
+                        <p:inputText disabled="true" id="idTipoRequisito" value="#{frmTipoRequisito.registro.idTipoRequisito}" title="IdTipoRequisito"/>
+                        <p:outputLabel value="Nombre:" for="nombre" />
+                        <p:inputText id="nombre" value="#{frmTipoRequisito.registro.nombre}" title="Nombre" required="true" requiredMessage="The Nombre field is required."/>
+                        <p:outputLabel value="Estado:" for="activo" />
+                        <p:selectBooleanCheckbox id="activo" value="#{frmTipoRequisito.registro.activo}"/>
+                        <p:outputLabel value="Observaciones:" for="observaciones" />
+                        <p:inputTextarea id="observaciones" value="#{frmTipoRequisito.registro.observaciones}" title="Observaciones" required="true" requiredMessage="The Observaciones field is required."/>                   
+                    </p:panelGrid>
+                    
+                    <p:panelGrid id="panelBotones" columns="2">
+                        <p:commandButton value="Guarar" icon="ui-icon-disk" rendered="#{frmTipoRequisito.btnGuardar}">
+                            <p:ajax process=":frmEdit:" update=":frmEdit :frmData" listener="#{frmTipoRequisito.Guardar()}"/>
+                        </p:commandButton>
+                        <p:commandButton value="Eliminar" icon="ui-icon-trash" rendered="#{frmTipoRequisito.btnBorrarModificar}">
+                            <p:ajax process=":frmEdit" update=":frmEdit :frmData" listener="#{frmTipoRequisito.Eliminar()}"/>
+                        </p:commandButton>
+                        <p:commandButton value="Modificar" icon="ui-icon-pencil" rendered="#{frmTipoRequisito.btnBorrarModificar}">
+                            <p:ajax process=":frmEdit" update=":frmEdit :frmData" listener="#{frmTipoRequisito.Modificar()}"/>
+                        </p:commandButton>
+                    </p:panelGrid>
+                </h:panelGroup>
+            </h:form>
+        </f:view>
+    </h:body>
+</html>
+
