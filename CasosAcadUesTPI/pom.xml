@@ -10,5 +10,6 @@
     <module>CasosAcadUesTPI-ear</module>
     <module>CasosAcadUesTPI-web</module>
     <module>CasosAcadUesTPI-ejb</module>
+    <module>CasosAcadUesTPILib</module>
   </modules>
 </project>
