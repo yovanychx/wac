@@ -26,6 +26,9 @@
                     </image>
                 </images>
             </configuration>
+                <dockerHost>https://localhost:2376</dockerHost>
+                <certPath>src/main/dockerCerts</certPath>
+                <useColor>true</useColor>
                 <executions>
               <execution>
                 <id>build-image</id>
