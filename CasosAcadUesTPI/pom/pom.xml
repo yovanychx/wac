@@ -14,6 +14,7 @@
             <groupId>io.fabric8</groupId>
             <artifactId>docker-maven-plugin</artifactId>
             <configuration>
+                <dockerHost>https://52.40.37.211:2376</dockerHost>
                 <images>
                     <image>
                         <build>
